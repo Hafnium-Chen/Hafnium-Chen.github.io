@@ -1,9 +1,254 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>猫</title>
-  </head>
-  <body>
-    <h1>喵</h1>
-  </body>
+<html lang="zh-cn" dir="ltr">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="utf-8" />
+    <meta name="author" content="猫" />
+    <title>猫のHomepage</title>
+
+    <style>
+        /* ========== 基础重置 ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Helvetica Neue', sans-serif; /* 现代字体 */
+        }
+
+        /* ========== 全局样式 ========== */
+        body.site {
+            background: #f8f9fa; /* 更柔和的背景色 */
+            color: #333; /* 主文字颜色 */
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ========== 头部样式 ========== */
+        .header {
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* 添加阴影层次 */
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            text-decoration: none;
+            font-size: 1.5rem;
+            color: #2c3e50 !important; /* 深蓝灰色 */
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .brand:hover {
+            color: #0088cc !important;
+        }
+
+        /* ========== 搜索框美化 ========== */
+        .mod_search93 input[type="search"] {
+            padding: 0.6rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px; /* 圆角 */
+            width: 250px;
+            transition: all 0.3s;
+        }
+
+        .mod_search93 input[type="search"]:focus {
+            outline: none;
+            border-color: #0088cc;
+            box-shadow: 0 0 8px rgba(0,136,204,0.2);
+        }
+
+        /* ========== 主内容区域 ========== */
+        #content {
+            flex: 1;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 20px;
+        }
+
+        .item-page {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .item-page ul {
+            list-style: none;
+            padding-left: 1.5rem;
+        }
+
+        .item-page li {
+            margin: 0.8rem 0;
+            padding-left: 1rem;
+            border-left: 3px solid #0088cc; /* 装饰线条 */
+        }
+
+        .item-page a {
+            text-decoration: none;
+            color: #0088cc;
+            transition: color 0.3s;
+        }
+
+        .item-page a:hover {
+            color: #005580;
+            text-decoration: underline;
+        }
+
+        /* ========== 页脚样式 ========== */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 2rem 0;
+            margin-top: auto; /* 使页脚始终在底部 */
+        }
+
+        .footer .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #back-top {
+            background: #0088cc;
+            color: white !important;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: background 0.3s;
+        }
+
+        #back-top:hover {
+            background: #005580;
+        }
+
+        /* ========== 响应式设计 ========== */
+        @media (max-width: 768px) {
+            .header-inner {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .mod_search93 input[type="search"] {
+                width: 100%;
+            }
+
+            #content {
+                margin: 1rem auto;
+            }
+
+            .item-page {
+                padding: 1rem;
+            }
+        }
+    </style>
+
+    <!-- MathJax 配置（保留原有） -->
+    <script>
+        MathJax = {
+          tex: {
+            inlineMath: [['$', '$'], ['\\(', '\\)']],
+            displayMath: [['$$', '$$'], ['\\[', '\\]']]
+          },
+          svg: {
+            fontCache: 'global'
+          }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 获取浏览器语言
+            const browserLang = navigator.language || navigator.userLanguage;
+
+            // 定义支持的语言，默认中文
+            const supportedLanguages = ['zh', 'ja', 'en'];
+            let activeLang = 'zh';
+
+            // 根据浏览器语言设置默认语言
+            if (browserLang.startsWith('ja')) {
+                activeLang = 'ja';
+            } else if (browserLang.startsWith('en')) {
+                activeLang = 'en';
+            }
+
+            // 显示对应语言的内容
+            document.querySelectorAll('.language').forEach(function (el) {
+                el.classList.remove('active');
+                if (el.getAttribute('lang') === activeLang) {
+                    el.classList.add('active');
+                }
+            });
+        });
+    </script>
+</head>
+
+<body class="site com_content view-article no-layout no-task itemid-110">
+    <!-- 页头 -->
+    <header class="header" role="banner">
+        <div class="header-inner clearfix">
+            <a class="brand" href="/">
+                <span class="site-title">🐱 猫のHomepage</span>
+            </a>
+
+            <div class="header-search">
+                <div class="search mod_search93">
+                    <form action="/index.php/zh/" method="post" role="search">
+                        <input 
+                            type="search" 
+                            id="mod-search-searchword93" 
+                            placeholder="搜索..." 
+                            aria-label="站内搜索"
+                        />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容 -->
+    <main id="content">
+        <div class="item-page">
+            <div itemprop="articleBody">
+                <h1 style="margin-bottom: 1.5rem; color: #2c3e50;">猫窝</h1>
+                <p style="margin-bottom: 1rem;">这是我猫窝</p>
+                
+                <ul>
+                    <li> GitHub 主页：<a href="https://github.com/Hafnium-Chen">点击访问</a></li>
+                    <li> 联系我：<a href="306581756@qq.com">发送邮件</a></li>
+                </ul>
+
+                <div style="margin-top: 2rem; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
+                    <h3>今日</h3>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="footer" role="contentinfo">
+        <div class="container">
+            <hr style="border-color: rgba(255,255,255,0.2); margin: 1.5rem 0;" />
+            <p style="margin-bottom: 1rem;">
+                © 2025 猫のHomepage 
+            </p>
+            <p class="pull-right">
+                <a href="#top" id="back-top">↑ 返回顶部</a>
+            </p>
+        </div>
+    </footer>
+</body>
 </html>
