@@ -1,283 +1,388 @@
-<!DOCTYPE html>
-<html lang="zh-cn" dir="ltr">
+<!doctype html>
+<html lang="zh-CN">
+
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta charset="utf-8" />
-    <meta name="author" content="猫" />
-    <title>猫のHomepage</title>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>Kexin Cheng</title>
+
+    <link href="https://fonts.font.im/css?family=Abril+Fatface%7CArapey&amp;subset=latin-ext" rel="stylesheet">
+    <link href="https://fonts.font.im/css?family=Merriweather" rel="stylesheet">
+    <link href="https://fonts.font.im/css?family=EB+Garamond|Merienda" rel="stylesheet">
 
     <style>
-        /* ========== 基础重置 ========== */
-        * {
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', 'Helvetica Neue', sans-serif; /* 现代字体 */
         }
 
-        /* ========== 全局样式 ========== */
-        body.site {
-            background: #f8f9fa; /* 更柔和的背景色 */
-            color: #333; /* 主文字颜色 */
-            line-height: 1.6;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* ========== 头部样式 ========== */
-        .header {
+        body {
+            font-family: "Times New Roman", "PingFang SC", "Microsoft YaHei", serif;
+            color: #222;
             background: #ffffff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* 添加阴影层次 */
-            padding: 1rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
+            overflow-x: hidden;
         }
 
-        .header-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
+        a:link {
+            text-decoration: none;
+            color: royalblue;
+            font-family: 'Consolas', 'Merriweather', serif;
+            font-size: 16px;
+        }
+
+        a:visited {
+            color: royalblue;
+        }
+
+        a:hover {
+            color: pink;
+        }
+
+        a:active {
+            color: royalblue;
+        }
+
+        .preloader {
+            display: none;
             align-items: center;
+            justify-content: center;
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, 0.95);
+            z-index: 9999;
         }
 
-        .brand {
-            text-decoration: none;
-            font-size: 1.5rem;
-            color: #2c3e50 !important; /* 深蓝灰色 */
-            font-weight: 600;
-            transition: color 0.3s;
+        .spinner {
+            width: 42px;
+            height: 42px;
+            border: 4px solid #dddddd;
+            border-top: 4px solid royalblue;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
         }
 
-        .brand:hover {
-            color: #0088cc !important;
-        }
-
-        /* ========== 搜索框美化 ========== */
-        .mod_search93 input[type="search"] {
-            padding: 0.6rem 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 25px; /* 圆角 */
-            width: 250px;
-            transition: all 0.3s;
-        }
-
-        .mod_search93 input[type="search"]:focus {
-            outline: none;
-            border-color: #0088cc;
-            box-shadow: 0 0 8px rgba(0,136,204,0.2);
-        }
-
-        /* ========== 主内容区域 ========== */
-        #content {
-            flex: 1;
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 20px;
-        }
-
-        .item-page {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-
-        .item-page ul {
-            list-style: none;
-            padding-left: 1.5rem;
-        }
-
-        .item-page li {
-            margin: 0.8rem 0;
-            padding-left: 1rem;
-            border-left: 3px solid #0088cc; /* 装饰线条 */
-        }
-
-        .item-page a {
-            text-decoration: none;
-            color: #0088cc;
-            transition: color 0.3s;
-        }
-
-        .item-page a:hover {
-            color: #005580;
-            text-decoration: underline;
-        }
-
-        /* ========== 页脚样式 ========== */
-        .footer {
-            background: #2c3e50;
-            color: white;
-            padding: 2rem 0;
-            margin-top: auto; /* 使页脚始终在底部 */
-        }
-
-        .footer .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        #back-top {
-            background: #00aaff;
-            color: white !important;
-            padding: 0.5rem 1.5rem;
-            border-radius: 20px;
-            text-decoration: none;
-            transition: background 0.3s;
-        }
-
-        #back-top:hover {
-            background: #005580;
-        }
-
-        /* ========== 响应式设计 ========== */
-        @media (max-width: 768px) {
-            .header-inner {
-                flex-direction: column;
-                gap: 1rem;
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
             }
 
-            .mod_search93 input[type="search"] {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .image-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 38%;
+            height: 100vh;
+            overflow: hidden;
+            background: #000000;
+        }
+
+        .background-img {
+            width: 100%;
+            height: 100%;
+            background-image: url("cat.JPG");
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+
+        .content-area {
+            margin-left: 38%;
+            width: 62%;
+            min-height: 100vh;
+            background: #ffffff;
+        }
+
+        .content-area-inner {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 70px 48px;
+            box-sizing: border-box;
+        }
+
+        section {
+            margin-bottom: 90px;
+        }
+
+        h1 {
+            margin: 0 0 24px 0;
+            font-size: 56px;
+            line-height: 1.1;
+            font-weight: 700;
+        }
+
+        h3 {
+            margin: 0 0 28px 0;
+            font-size: 28px;
+            line-height: 1.3;
+            font-weight: 700;
+        }
+
+        h4 {
+            margin: 28px 0 14px 0;
+            font-size: 22px;
+            line-height: 1.4;
+            font-weight: 700;
+        }
+
+        p {
+            margin: 0 0 16px 0;
+            line-height: 1.95;
+            font-size: 18px;
+        }
+
+        ul {
+            margin: 0 0 16px 0;
+            padding-left: 24px;
+            line-height: 1.9;
+        }
+
+        li {
+            margin-bottom: 6px;
+        }
+
+        .subline {
+            margin: 8px 0;
+            line-height: 1.95;
+            font-size: 19px;
+        }
+
+        .container-mid {
+            min-height: 78vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .smooth-scroll {
+            display: inline-block;
+            margin-top: 24px;
+            font-weight: 700;
+        }
+
+        .animation-container,
+        .scroll-animated-from-right {
+            opacity: 1;
+            transform: none;
+        }
+
+        .services-list,
+        .contact-list,
+        .social-icons {
+            padding-left: 22px;
+        }
+
+        .social-icons li {
+            margin-bottom: 8px;
+        }
+
+        @media (max-width: 900px) {
+            .image-container {
+                position: relative;
+                width: 100%;
+                height: 360px;
+            }
+
+            .content-area {
+                margin-left: 0;
                 width: 100%;
             }
 
-            #content {
-                margin: 1rem auto;
+            .content-area-inner {
+                padding: 42px 24px;
             }
 
-            .item-page {
-                padding: 1rem;
+            h1 {
+                font-size: 40px;
             }
         }
     </style>
+</head>
 
-    <!-- MathJax 配置（保留原有） -->
+<body>
+
+    <div class="preloader">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="image-container">
+        <div class="background-img"></div>
+    </div>
+
+    <div class="content-area">
+        <div class="content-area-inner">
+
+            <section id="intro">
+
+                <div class="container-mid">
+
+                    <div class="animation-container animation-fade-down" data-animation-delay="0">
+                        <h1>程铪炘</h1>
+                    </div>
+
+                    <div class="animation-container animation-fade-left" data-animation-delay="300">
+                        <p class="subline">One of my favorite pictures</p>
+                        <p class="subline">Maybe change one day</p>
+                    </div>
+
+                    <div class="animation-container animation-fade-up" data-animation-delay="600">
+                        <a href="#about" class="smooth-scroll">Learn More</a>
+                    </div>
+
+                </div>
+            </section>
+
+            <section id="about">
+                <h3 class="headline scroll-animated-from-right">About Me</h3>
+
+                <p class="scroll-animated-from-right">
+                    My name is Kexin Cheng. It's a little bit difficult to pronounce so you can also call me Hafnium Chen (from the meaning of my name's second Chinese character and the easy way of my family name) or Mikan Neko (nick name in Japanese)
+                </p>
+
+                <p class="scroll-animated-from-right">
+                    Studying Mathematics in Tokyo University of Science, interested in math, physics, and any other interesting things
+                </p>
+
+                <p class="scroll-animated-from-right">
+                    Practicing figure skating (recently suspended due to a fracture of my left greater trochanter) <br/>
+                    Building and maintaining the school's figure skating club's website <br/>
+                    Too many hobbies to say :)
+                </p>
+
+            </section>
+
+            <section id="service">
+                <h3 class="headline scroll-animated-from-right">Seminar</h3>
+
+                <ul class="services-list">
+                    <li class="scroll-animated-from-right">Math basics seminar (finished)</li>
+                    <li class="scroll-animated-from-right">Algebraic Geometry seminar (holding soon)</li>
+                </ul>
+            </section>
+
+            <section id="resources">
+                <h3 class="headline scroll-animated-from-right">Resources</h3>
+
+                <p class="scroll-animated-from-right">
+                    My homepage is just a place where I put these resources so you can just read or download them freely if you like. This is the new version of my homepage so you can only find things which I wrote before. I don't mind if you spread or not, but I'm ashamed to see what I have written, so you just need to let me know which part you used when you use it on your work or lecture notes. You can find my contact information below. Thanks for your understanding :)
+                </p>
+
+                <h4 class="scroll-animated-from-right">Notes (Lecture) [ja]</h4>
+                <p class="scroll-animated-from-right">
+                    I put some notes and answers of lectures here. I can't put problems written by TA but I will write their name so if you are the same teacher/TA and they haven't changed the problems, you can find answers here <br/>
+                    Also, I started to write my homework in LaTeX from the fall semester of grade 1, and started to write all my notes and homework and any other things in LaTeX from the spring semester of grade 2. Not only this, I used pdfLaTeX until the beginning of 2025 but I switched to xeLaTeX since then, so it's a little bit troublesome to convert these files to the new format, maybe I will do it one day and put them here
+                </p>
+                <ul>
+                    <li class="scroll-animated-from-right">
+                        Algebra 1<br/>
+                        <a href="/source/grade2/algebra1/代数1.pdf">Algebra 1 Notes</a><br/>
+                        <a href="/source/grade2/algebra1/期末.pdf">Final</a>
+                    </li>
+
+                    <li class="scroll-animated-from-right">
+                        Algebra 2<br/>
+                        <a href="/source/grade2/algebra2/Algebra2.pdf">Algebra 2 Notes</a><br/>
+                        <a href="/source/grade2/algebra2/algebra2-p.pdf">Answers of Algebra 2 Exercises Class</a>
+                    </li>
+
+                    <li class="scroll-animated-from-right">
+                        Analysis 1<br/>
+                        <a href="/source/grade2/analysis1/analysis1.pdf">Analysis 1 Notes</a><br/>
+                        <a href="/source/grade2/analysis1/analysis1-p.pdf">Answers of Analysis 1 Exercises Class</a>
+                    </li>
+
+                    <li class="scroll-animated-from-right">
+                        Analysis 2<br/>
+                        <a href="/source/grade2/analysis2/analysis2.pdf">Analysis 2 Notes</a><br/>
+                        <a href="/source/grade2/analysis2/analysis-cp.pdf">Answers of Analysis 2</a><br/>
+                        <a href="/source/grade2/analysis2/analysis2-p-total.pdf">Answers of Analysis 2 Exercises Class</a>
+                    </li>
+
+                    <li class="scroll-animated-from-right">
+                        Geometry 1<br/>
+                        <a href="/source/grade2/geometry1/geometry1.pdf">Geometry 1 Notes</a><br/>
+                        <a href="/source/grade2/geometry1/g1-cp_total.pdf">Answers of Geometry 1</a><br/>
+                        <a href="/source/grade2/geometry1/g1-p_total.pdf">Answers of Geometry 1 Exercises Class</a>
+                    </li>
+
+                    <li class="scroll-animated-from-right">
+                        Geometry 2<br/>
+                        <a href="/source/grade2/geometry2/geometry2.pdf">Geometry 2 Notes</a><br/>
+                        <a href="/source/grade2/geometry2/geometry2-p.pdf">Answers of Geometry 2 Exercises Class</a>
+                    </li>
+
+                    <li class="scroll-animated-from-right">
+                        Statistics 2<br/>
+                        <a href="/source/grade2/statistics2/statistics2.pdf">Statistics 2 Notes</a>
+                        <p style="color: gray;">For some reason, statistics 1 notes are not available and will not be uploaded in the foreseeable future</p>
+                    </li>
+
+                    <li class="scroll-animated-from-right">
+                        Topology<br/>
+                        <a href="/source/grade2/topology/大山口拓扑.pdf">Topology Notes</a><br/>
+                        <a href="/source/grade2/topology/topology1-p.pdf">Answers of Topology 1 Exercises Class</a>
+                    </li>
+                </ul>
+
+                <h4 class="scroll-animated-from-right">Notes (seminar or personal learning)</h4>
+                <ul>
+                    <li class="scroll-animated-from-right">
+                        <a href="/source/manifold/document.pdf">Manifold Notes[zh]</a>
+                    </li>
+                    <li class="scroll-animated-from-right">
+                        <a href="/source/riemann_geometry/Riemann_Geometry.pdf">Riemann Geometry Notes[ja]</a>
+                    </li>
+                </ul>
+
+            </section>
+
+            <section id="contact">
+                <h3 class="headline scroll-animated-from-right">Contact</h3>
+
+                <ul class="contact-list">
+                    <li class="scroll-animated-from-right">
+                        Email：306581756[at]qq.com <br/>
+                        1124076[at]ed.tus.ac.jp
+                        <p style="color: gray;">This edu email is available until the beginning of 2029, and please change [at] into @</p>
+                    </li>
+                    <li class="scroll-animated-from-right">
+                        GitHub：<a href="https://github.com/Hafnium-Chen">https://github.com/Hafnium-Chen</a>
+                    </li>
+                    <li class="scroll-animated-from-right">
+                        If you need any other social media of mine like QQ or WeChat or Rednote or anything else, please email me in Chinese/Japanese/English/.etc    :3
+                    </li>
+                </ul>
+            </section>
+
+        </div>
+    </div>
+
     <script>
-        MathJax = {
-          tex: {
-            inlineMath: [['$', '$'], ['\\(', '\\)']],
-            displayMath: [['$$', '$$'], ['\\[', '\\]']]
-          },
-          svg: {
-            fontCache: 'global'
-          }
-        };
-    </script>
-    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // 获取浏览器语言
-            const browserLang = navigator.language || navigator.userLanguage;
+        document.querySelectorAll('.smooth-scroll').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
 
-            // 定义支持的语言，默认中文
-            const supportedLanguages = ['zh', 'ja', 'en'];
-            let activeLang = 'zh';
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
 
-            // 根据浏览器语言设置默认语言
-            if (browserLang.startsWith('ja')) {
-                activeLang = 'ja';
-            } else if (browserLang.startsWith('en')) {
-                activeLang = 'en';
-            }
-
-            // 显示对应语言的内容
-            document.querySelectorAll('.language').forEach(function (el) {
-                el.classList.remove('active');
-                if (el.getAttribute('lang') === activeLang) {
-                    el.classList.add('active');
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
                 }
             });
         });
     </script>
-</head>
-
-<body class="site com_content view-article no-layout no-task itemid-110">
-    <!-- 页头 -->
-    <header class="header" role="banner">
-        <div class="header-inner clearfix">
-            <a class="brand" href="/">
-                <span class="site-title">🐱 猫のHomepage</span>
-            </a>
-
-            <div class="header-search">
-                <div class="search mod_search93">
-                    <form action="/index.php/zh/" method="post" role="search">
-                        <input 
-                            type="search" 
-                            id="mod-search-searchword93" 
-                            placeholder="搜索..." 
-                            aria-label="站内搜索"
-                        />
-                    </form>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- 主内容 -->
-    <main id="content">
-        <div class="item-page">
-            <div itemprop="articleBody">
-                <h1 style="margin-bottom: 1.5rem; color: #2c3e50;">猫窝</h1>
-                <p style="margin-bottom: 1rem;">这是我猫窝</p>
-                
-                <!-- 介绍 -->
-                <h2>关于我</h2>
-                <p>废物猫</p>
-
-                <!-- 讲义 -->
-                <h2>讲义</h2>
-                <a href="/source/Introduction to Manifolds.pdf">Introduction to Manifolds</a><br/>
-                <a href="/source/algebra.pdf">Algebra</a>
-
-                <!-- 有趣内容 -->
-                <h2>有意思内容</h2>
-                <p>丢一些之前搜到的有意思的东西，仅作为方便本人阅读整理，不对内容拥有任何层面的权利</p>
-                <a href="/share/share-zh.html">分享</a>
-
-                <!-- 丘赛 -->
-                <h2>丘赛参考书</h2>
-                <p>这里放入整理的除概统和计算数学之外的参考书，仅供参考.同时由于Github单个文件大小限制，部分大小过大文件有拆分</p>
-                <a href="/other/yau.html">丘赛参考书</a>
-
-                <!-- 外链 -->
-                <h2>相关链接</h2>
-                <ul>
-                    <li> GitHub 主页：<a href="https://github.com/Hafnium-Chen">点击访问</a></li>
-                    <li> 联系我：306581756[at]qq.com
-                </ul>
-
-                <!-- 更新块 -->
-                <div style="margin-top: 2rem; padding: 1.5rem; background: #f8f9fa; border-radius: 8px;">
-                    <h3>近期更新</h3>
-                    <p>流形概论更新至De Rham上同调<br/>
-                        代数更新至homomorphism
-                    </p>
-                    <h3>碎碎念</h3>
-                    <a href="/other/other.html"></a>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- 页脚 -->
-    <footer class="footer" role="contentinfo">
-        <div class="container">
-            <a href="/lang/ja.html" style="color: #00ffff; text-decoration: none;">日本語版</a>
-            <a href="/lang/en.html" style="color: #00ffff; text-decoration: none;">English version</a>
-            <hr style="border-color: rgb(255, 255, 255); margin: 1.5rem 0;" />
-            <p style="margin-bottom: 1rem;">
-                © 2025 猫のHomepage 
-            </p>
-            <p class="pull-right">
-                <a href="#top" id="back-top">↑ 返回顶部</a>
-            </p>
-        </div>
-    </footer>
 </body>
+
 </html>
