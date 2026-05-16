@@ -3,393 +3,689 @@
 
 <head>
     <meta charset="utf-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Kexin Cheng's academic homepage with personal profile, seminars, lecture notes, and contact information.">
+    <meta name="theme-color" content="#ffffff">
+    <meta property="og:title" content="Kexin Cheng | Academic Homepage">
+    <meta property="og:description" content="Academic homepage for mathematics notes, seminars, and contact information.">
 
     <title>Kexin Cheng</title>
 
-    <link href="https://fonts.font.im/css?family=Abril+Fatface%7CArapey&amp;subset=latin-ext" rel="stylesheet">
-    <link href="https://fonts.font.im/css?family=Merriweather" rel="stylesheet">
-    <link href="https://fonts.font.im/css?family=EB+Garamond|Merienda" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+        :root {
+            --bg: #ffffff;
+            --ink: #222;
+            --muted: #888888;
+            --line: #dddddd;
+            --accent: royalblue;
+            --accent-hover: pink;
+            --radius: 2px;
+            --transition: 0.15s ease;
+        }
 
-        html,
-        body {
-            width: 100%;
-            height: 100%;
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+        html {
+            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
         body {
             font-family: "Times New Roman", "PingFang SC", "Microsoft YaHei", serif;
-            color: #222;
-            background: #ffffff;
+            font-size: 16px;
+            line-height: 1.75;
+            color: var(--ink);
+            background: var(--bg);
             overflow-x: hidden;
         }
 
-        a:link {
+        /* ── Skip link ── */
+        .skip-link {
+            position: absolute;
+            top: -48px;
+            left: 20px;
+            z-index: 100;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            color: #fff;
+            background: var(--accent);
+            font-size: 13px;
+            font-weight: 500;
             text-decoration: none;
-            color: royalblue;
-            font-family: 'Consolas', 'Merriweather', serif;
-            font-size: 16px;
+            transition: top 0.25s ease;
+        }
+        .skip-link:focus {
+            top: 20px;
         }
 
-        a:visited {
-            color: royalblue;
-        }
-
-        a:hover {
-            color: pink;
-        }
-
-        a:active {
-            color: royalblue;
-        }
-
-        .preloader {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            position: fixed;
-            inset: 0;
-            background: rgba(255, 255, 255, 0.95);
-            z-index: 9999;
-        }
-
-        .spinner {
-            width: 42px;
-            height: 42px;
-            border: 4px solid #dddddd;
-            border-top: 4px solid royalblue;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% {
-                transform: rotate(0deg);
-            }
-
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        .image-container {
+        /* ── READING PROGRESS BAR ── */
+        .progress-bar {
             position: fixed;
             top: 0;
             left: 0;
-            width: 38%;
-            height: 100vh;
-            overflow: hidden;
-            background: #000000;
+            z-index: 200;
+            height: 2.5px;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.1s linear;
+            pointer-events: none;
         }
 
-        .background-img {
-            width: 100%;
-            height: 100%;
-            background-image: url("cat.JPG");
-            background-size: cover;
-            background-position: center center;
-            background-repeat: no-repeat;
-        }
-
-        .content-area {
-            margin-left: 38%;
-            width: 62%;
-            min-height: 100vh;
+        /* ── BACK TO TOP ── */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 90;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--line);
             background: #ffffff;
+            color: var(--muted);
+            font-size: 18px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(12px);
+            pointer-events: none;
+            transition: opacity 0.25s ease, transform 0.25s ease, color 0.15s ease;
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .back-to-top:hover {
+            color: var(--accent);
+            border-color: var(--accent);
         }
 
-        .content-area-inner {
-            max-width: 920px;
+        /* ── COPY EMAIL BUTTON ── */
+        .copy-email-btn {
+            display: inline-block;
+            margin-left: 6px;
+            padding: 2px 8px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            background: transparent;
+            color: var(--muted);
+            font-size: 12px;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+        .copy-email-btn:hover {
+            color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        /* ── NAV ── */
+        .site-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 0 40px;
+            height: 56px;
+            background: #ffffff;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .nav-brand {
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--ink);
+            text-decoration: none;
+            letter-spacing: -0.01em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 4px;
+        }
+
+        .nav-links a {
+            padding: 6px 12px;
+            color: var(--muted);
+            font-family: 'Consolas', 'Merriweather', serif;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+        .nav-links a.active {
+            color: var(--accent);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        /* ── LAYOUT ── */
+        .page-wrapper {
+            max-width: 820px;
             margin: 0 auto;
-            padding: 70px 48px;
-            box-sizing: border-box;
+            padding: 0 32px;
         }
 
         section {
-            margin-bottom: 90px;
+            padding: 72px 0;
+            scroll-margin-top: 72px;
         }
 
-        h1 {
-            margin: 0 0 24px 0;
+        section + section {
+            border-top: 1px solid var(--line);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            padding: 64px 0 56px;
+            text-align: center;
+        }
+
+        .hero-image {
+            max-width: 420px;
+            margin: 0 auto 28px;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border: 1px solid var(--line);
+        }
+
+        .hero-image .image-caption {
+            margin-top: 8px;
+            font-size: 14px;
+            color: var(--muted);
+            font-style: italic;
+        }
+
+        .hero h1 {
+            font-family: 'EB Garamond', 'Noto Serif SC', Georgia, serif;
             font-size: 56px;
+            font-weight: 700;
             line-height: 1.1;
-            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 24px;
         }
 
-        h3 {
-            margin: 0 0 28px 0;
+        .hero .hero-link {
+            display: inline-block;
+            margin-top: 8px;
+            font-weight: 700;
+            font-size: 17px;
+            color: var(--accent);
+            text-decoration: none;
+        }
+        .hero .hero-link:hover {
+            color: var(--accent-hover);
+        }
+
+        /* ── SECTION HEADERS ── */
+        section h3 {
             font-size: 28px;
-            line-height: 1.3;
             font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 28px;
         }
 
-        h4 {
-            margin: 28px 0 14px 0;
+        section h4 {
             font-size: 22px;
-            line-height: 1.4;
             font-weight: 700;
+            margin: 28px 0 14px;
+            color: var(--ink);
         }
 
         p {
-            margin: 0 0 16px 0;
-            line-height: 1.95;
+            margin: 0 0 16px;
             font-size: 18px;
+            line-height: 1.95;
+            color: var(--ink);
         }
 
         ul {
-            margin: 0 0 16px 0;
+            margin: 0 0 16px;
             padding-left: 24px;
             line-height: 1.9;
         }
 
         li {
             margin-bottom: 6px;
+            font-size: 17px;
         }
 
-        .subline {
-            margin: 8px 0;
-            line-height: 1.95;
-            font-size: 19px;
-        }
-
-        .container-mid {
-            min-height: 78vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .smooth-scroll {
-            display: inline-block;
-            margin-top: 24px;
-            font-weight: 700;
-        }
-
-        .animation-container,
-        .scroll-animated-from-right {
-            opacity: 1;
-            transform: none;
-        }
-
-        .services-list,
-        .contact-list,
-        .social-icons {
+        /* ── SEMINAR LIST ── */
+        .services-list {
             padding-left: 22px;
         }
 
-        .social-icons li {
-            margin-bottom: 8px;
+        /* ── RESOURCE ITEMS ── */
+        .resource-list {
+            list-style: none;
+            padding: 0;
         }
 
-        @media (max-width: 900px) {
-            .image-container {
-                position: relative;
-                width: 100%;
-                height: 360px;
+        .resource-item {
+            padding: 12px 0;
+            border-top: 1px solid var(--line);
+        }
+
+        .resource-item .item-title {
+            font-weight: 700;
+            font-size: 17px;
+            color: var(--ink);
+        }
+        .resource-item .item-instructors {
+            font-size: 14px;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+        .resource-item .item-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .resource-item .item-note {
+            font-size: 14px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* ── CONTACT ── */
+        .contact-list {
+            padding-left: 22px;
+            line-height: 1.9;
+        }
+        .contact-list li {
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+        .contact-note {
+            font-size: 14px;
+            color: var(--muted);
+        }
+
+        /* ── FOOTER ── */
+        .site-footer {
+            padding: 32px 0 40px;
+            border-top: 1px solid var(--line);
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-in {
+            opacity: 0;
+            transform: translateY(16px);
+        }
+        .animate-in.visible {
+            animation: fadeUp 0.5s ease forwards;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .site-nav {
+                padding: 0 16px;
+                height: 52px;
+            }
+            .nav-brand {
+                font-size: 17px;
+            }
+            .nav-links a {
+                padding: 5px 10px;
+                font-size: 12px;
             }
 
-            .content-area {
-                margin-left: 0;
-                width: 100%;
+            .page-wrapper {
+                padding: 0 20px;
+            }
+            section {
+                padding: 48px 0;
             }
 
-            .content-area-inner {
-                padding: 42px 24px;
+            .hero {
+                padding: 48px 0 40px;
             }
-
-            h1 {
+            .hero h1 {
                 font-size: 40px;
+            }
+            .hero-image {
+                max-width: 100%;
+            }
+
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 36px;
             }
         }
     </style>
 </head>
 
 <body>
+    <div class="progress-bar" id="progress-bar" aria-hidden="true"></div>
+    <a class="skip-link" href="#main-content">Skip to content</a>
 
-    <div class="preloader">
-        <div class="spinner"></div>
-    </div>
+    <nav class="site-nav" aria-label="Primary navigation">
+        <a class="nav-brand" href="#">Kexin Cheng</a>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#service">Seminar</a>
+            <a href="#resources">Resources</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
 
-    <div class="image-container">
-        <div class="background-img"></div>
-    </div>
-
-    <div class="content-area">
-        <div class="content-area-inner">
-
-            <section id="intro">
-
-                <div class="container-mid">
-
-                    <div class="animation-container animation-fade-down" data-animation-delay="0">
-                        <h1>程铪炘</h1>
-                    </div>
-
-                    <div class="animation-container animation-fade-left" data-animation-delay="300">
-                        <p class="subline">One of my favorite pictures</p>
-                        <p class="subline">Maybe change one day</p>
-                    </div>
-
-                    <div class="animation-container animation-fade-up" data-animation-delay="600">
-                        <a href="#about" class="smooth-scroll">Learn More</a>
-                    </div>
-
+    <main id="main-content">
+        <!-- ═══════ INTRO ═══════ -->
+        <section class="hero" id="intro">
+            <div class="page-wrapper">
+                <div class="hero-image">
+                    <img src="cat.JPG" alt="One of my favorite pictures">
+                    <div class="image-caption">One of my favorite pictures &mdash; Maybe change one day</div>
                 </div>
-            </section>
+                <h1>程铪炘</h1>
+                <a href="#about" class="hero-link smooth-scroll">Learn More</a>
+            </div>
+        </section>
 
-            <section id="about">
-                <h3 class="headline scroll-animated-from-right">About Me</h3>
+        <!-- ═══════ ABOUT ═══════ -->
+        <section id="about">
+            <div class="page-wrapper">
+                <h3>About Me</h3>
 
-                <p class="scroll-animated-from-right">
+                <p>
                     My name is Kexin Cheng. It's a little bit difficult to pronounce so you can also call me Hafnium Chen (from the meaning of my name's second Chinese character and the easy way of my family name) or Mikan Neko (nick name in Japanese)
                 </p>
 
-                <p class="scroll-animated-from-right">
-                    Studying Mathematics in Tokyo University of Science, interested in math, physics, and any other interesting things <br/>
+                <p>
+                    Studying Mathematics in Tokyo University of Science, interested in math, physics, and any other interesting things <br>
                     Barring unforeseen circumstances, I will be conducting undergraduate research under Associate Professor Daisuke Yamakawa
                 </p>
 
-                <p class="scroll-animated-from-right">
-                    Practicing figure skating (recently suspended due to a fracture of my left greater trochanter) <br/>
-                    Building and maintaining the school's figure skating club's website <br/>
+                <p>
+                    Practicing figure skating (recently suspended due to a fracture of my left greater trochanter) <br>
+                    Building and maintaining the school's figure skating club's website <br>
                     Too many hobbies to say :3
                 </p>
+            </div>
+        </section>
 
-            </section>
-
-            <section id="service">
-                <h3 class="headline scroll-animated-from-right">Seminar</h3>
+        <!-- ═══════ SEMINAR ═══════ -->
+        <section id="service">
+            <div class="page-wrapper">
+                <h3>Seminar</h3>
 
                 <ul class="services-list">
-                    <li class="scroll-animated-from-right">Math basics seminar (finished)</li>
-                    <li class="scroll-animated-from-right">Algebraic Geometry seminar (holding soon)</li>
+                    <li>Math basics seminar (finished)</li>
+                    <li>Algebraic Geometry seminar (holding soon)</li>
                 </ul>
-            </section>
+            </div>
+        </section>
 
-            <section id="resources">
-                <h3 class="headline scroll-animated-from-right">Resources</h3>
+        <!-- ═══════ RESOURCES ═══════ -->
+        <section id="resources">
+            <div class="page-wrapper">
+                <h3>Resources</h3>
 
-                <p class="scroll-animated-from-right">
+                <p>
                     My homepage is just a place where I put these resources so you can just read or download them freely if you like. This is the new version of my homepage so you can only find things which I wrote before. I don't mind if you spread or not, but I'm ashamed to see what I have written, so you just need to let me know which part you used when you use it on your work or lecture notes. You can find my contact information below. Thanks for your understanding :)
                 </p>
 
-                <h4 class="scroll-animated-from-right">Notes (Lecture) [ja]</h4>
-                <p class="scroll-animated-from-right">
-                    I put some notes and answers of lectures here. I can't put problems written by TA but I will write their name so if you are the same teacher/TA and they haven't changed the problems, you can find answers here <br/>
+                <!-- Lecture Notes -->
+                <h4>Notes (Lecture) [ja]</h4>
+                <p>
+                    I put some notes and answers of lectures here. I can't put problems written by TA but I will write their name so if you are the same teacher/TA and they haven't changed the problems, you can find answers here <br>
                     Also, I started to write my homework in LaTeX from the fall semester of grade 1, and started to write all my notes and homework and any other things in LaTeX from the spring semester of grade 2. Not only this, I used pdfLaTeX until the beginning of 2025 but I switched to xeLaTeX since then, so it's a little bit troublesome to convert these files to the new format, maybe I will do it one day and put them here
                 </p>
-                <ul>
-                    <li class="scroll-animated-from-right">
-                        Algebra 1<br/>
-                        <p style="color: gray;">[Masanari Kida, Kyoichi Suzuki]</p>
-                        <a href="/source/grade2/algebra1/代数1.pdf">Algebra 1 Notes</a><br/>
-                        <a href="/source/grade2/algebra1/期末.pdf">Final</a>
-                        
+                <ul class="resource-list">
+                    <li class="resource-item">
+                        <div class="item-title">Algebra 1</div>
+                        <div class="item-instructors">[Masanari Kida, Kyoichi Suzuki]</div>
+                        <div class="item-links">
+                            <a href="source/grade2/algebra1/代数1.pdf">Algebra 1 Notes</a>
+                            <a href="source/grade2/algebra1/期末.pdf">Final</a>
+                        </div>
                     </li>
-
-                    <li class="scroll-animated-from-right">
-                        Algebra 2<br/>
-                        <p style="color: gray;">[Masanari Kida, Kyoichi Suzuki]</p>
-                        <a href="/source/grade2/algebra2/Algebra2.pdf">Algebra 2 Notes</a><br/>
-                        <a href="/source/grade2/algebra2/algebra2-p.pdf">Answers of Algebra 2 Exercises Class</a>
+                    <li class="resource-item">
+                        <div class="item-title">Algebra 2</div>
+                        <div class="item-instructors">[Masanari Kida, Kyoichi Suzuki]</div>
+                        <div class="item-links">
+                            <a href="source/grade2/algebra2/Algebra2.pdf">Algebra 2 Notes</a>
+                            <a href="source/grade2/algebra2/algebra2-p.pdf">Answers of Algebra 2 Exercises Class</a>
+                        </div>
                     </li>
-
-                    <li class="scroll-animated-from-right">
-                        Analysis 1<br/>
-                        <p style="color: gray;">[Masahito Ohta, Yuki.Osada]</p>
-                        <a href="/source/grade2/analysis1/analysis1.pdf">Analysis 1 Notes</a><br/>
-                        <a href="/source/grade2/analysis1/analysis1-p.pdf">Answers of Analysis 1 Exercises Class</a>
+                    <li class="resource-item">
+                        <div class="item-title">Analysis 1</div>
+                        <div class="item-instructors">[Masahito Ohta, Yuki.Osada]</div>
+                        <div class="item-links">
+                            <a href="source/grade2/analysis1/analysis1.pdf">Analysis 1 Notes</a>
+                            <a href="source/grade2/analysis1/analysis1-p.pdf">Answers of Analysis 1 Exercises Class</a>
+                        </div>
                     </li>
-
-                    <li class="scroll-animated-from-right">
-                        Analysis 2<br/>
-                        <p style="color: gray;">[Mieko Tanaka, Ryo Muramatsu]</p>
-                        <a href="/source/grade2/analysis2/analysis2.pdf">Analysis 2 Notes</a><br/>
-                        <a href="/source/grade2/analysis2/analysis-cp.pdf">Answers of Analysis 2</a><br/>
-                        <a href="/source/grade2/analysis2/analysis2-p-total.pdf">Answers of Analysis 2 Exercises Class</a>
+                    <li class="resource-item">
+                        <div class="item-title">Analysis 2</div>
+                        <div class="item-instructors">[Mieko Tanaka, Ryo Muramatsu]</div>
+                        <div class="item-links">
+                            <a href="source/grade2/analysis2/analysis2.pdf">Analysis 2 Notes</a>
+                            <a href="source/grade2/analysis2/analysis-cp.pdf">Answers of Analysis 2</a>
+                            <a href="source/grade2/analysis2/analysis2-p-total.pdf">Answers of Analysis 2 Exercises Class</a>
+                        </div>
                     </li>
-
-                    <li class="scroll-animated-from-right">
-                        Geometry 1<br/>
-                        <p style="color: gray;">[Daisuke Yamakawa, Tomoki Fujii]</p>
-                        <a href="/source/grade2/geometry1/geometry1.pdf">Geometry 1 Notes</a><br/>
-                        <a href="/source/grade2/geometry1/g1-cp_total.pdf">Answers of Geometry 1</a><br/>
-                        <a href="/source/grade2/geometry1/g1-p_total.pdf">Answers of Geometry 1 Exercises Class</a>
+                    <li class="resource-item">
+                        <div class="item-title">Geometry 1</div>
+                        <div class="item-instructors">[Daisuke Yamakawa, Tomoki Fujii]</div>
+                        <div class="item-links">
+                            <a href="source/grade2/geometry1/geometry1.pdf">Geometry 1 Notes</a>
+                            <a href="source/grade2/geometry1/g1-cp_total.pdf">Answers of Geometry 1</a>
+                            <a href="source/grade2/geometry1/g1-p_total.pdf">Answers of Geometry 1 Exercises Class</a>
+                        </div>
                     </li>
-
-                    <li class="scroll-animated-from-right">
-                        Geometry 2<br/>
-                        <p style="color: gray;">[Daisuke Yamakawa, Tomoki Fujii]</p>
-                        <a href="/source/grade2/geometry2/geometry2.pdf">Geometry 2 Notes</a><br/>
-                        <a href="/source/grade2/geometry2/geometry2-p.pdf">Answers of Geometry 2 Exercises Class</a>
+                    <li class="resource-item">
+                        <div class="item-title">Geometry 2</div>
+                        <div class="item-instructors">[Daisuke Yamakawa, Tomoki Fujii]</div>
+                        <div class="item-links">
+                            <a href="source/grade2/geometry2/geometry2.pdf">Geometry 2 Notes</a>
+                            <a href="source/grade2/geometry2/geometry2-p.pdf">Answers of Geometry 2 Exercises Class</a>
+                        </div>
                     </li>
-
-                    <li class="scroll-animated-from-right">
-                        Statistics 2<br/>
-                        <p style="color: gray;">[Yuusuke Sugiyama]</p>
-                        <a href="/source/grade2/statistics2/statistics2.pdf">Statistics 2 Notes</a>
-                        <p style="color: gray;">For some reason, statistics 1 notes are not available and will not be uploaded in the foreseeable future</p>
+                    <li class="resource-item">
+                        <div class="item-title">Statistics 2</div>
+                        <div class="item-instructors">[Yuusuke Sugiyama]</div>
+                        <div class="item-links">
+                            <a href="source/grade2/statistics2/statistics2.pdf">Statistics 2 Notes</a>
+                        </div>
+                        <div class="item-note">For some reason, statistics 1 notes are not available and will not be uploaded in the foreseeable future</div>
                     </li>
-
-                    <li class="scroll-animated-from-right">
-                        Topology<br/>
-                        <p style="color: gray;">[Natsumi Oyamaguchi]</p>
-                        <a href="/source/grade2/topology/大山口拓扑.pdf">Topology Notes</a><br/>
-                        <a href="/source/grade2/topology/topology1-p.pdf">Answers of Topology 1 Exercises Class</a>
-                    </li>
-                </ul>
-
-                <h4 class="scroll-animated-from-right">Notes (seminar or personal learning)</h4>
-                <ul>
-                    <li class="scroll-animated-from-right">
-                        <a href="/source/manifold/document.pdf">Manifold Notes[zh]</a>
-                    </li>
-                    <li class="scroll-animated-from-right">
-                        <a href="/source/riemann_geometry/Riemann_Geometry.pdf">Riemann Geometry Notes[ja]</a>
+                    <li class="resource-item">
+                        <div class="item-title">Topology</div>
+                        <div class="item-instructors">[Natsumi Oyamaguchi]</div>
+                        <div class="item-links">
+                            <a href="source/grade2/topology/大山口拓扑.pdf">Topology Notes</a>
+                            <a href="source/grade2/topology/topology1-p.pdf">Answers of Topology 1 Exercises Class</a>
+                        </div>
                     </li>
                 </ul>
 
-            </section>
+                <!-- Personal Notes -->
+                <h4>Notes (seminar or personal learning)</h4>
+                <ul class="resource-list">
+                    <li class="resource-item">
+                        <div class="item-links">
+                            <a href="source/manifold/document.pdf">Manifold Notes[zh]</a>
+                        </div>
+                    </li>
+                    <li class="resource-item">
+                        <div class="item-links">
+                            <a href="source/riemann_geometry/Riemann_Geometry.pdf">Riemann Geometry Notes[ja]</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
 
-            <section id="contact">
-                <h3 class="headline scroll-animated-from-right">Contact</h3>
+        <!-- ═══════ CONTACT ═══════ -->
+        <section id="contact">
+            <div class="page-wrapper">
+                <h3>Contact</h3>
 
                 <ul class="contact-list">
-                    <li class="scroll-animated-from-right">
-                        Email：306581756[at]qq.com <br/>
-                        1124076[at]ed.tus.ac.jp
-                        <p style="color: gray;">This edu email is available until the beginning of 2029, and please change [at] into @</p>
+                    <li>
+                        Email：306581756[at]qq.com <button class="copy-email-btn" data-email="306581756@qq.com">copy</button><br>
+                        1124076[at]ed.tus.ac.jp <button class="copy-email-btn" data-email="1124076@ed.tus.ac.jp">copy</button>
+                        <p class="contact-note">This edu email is available until the beginning of 2029, and please change [at] into @</p>
                     </li>
-                    <li class="scroll-animated-from-right">
+                    <li>
                         GitHub：<a href="https://github.com/Hafnium-Chen">https://github.com/Hafnium-Chen</a>
                     </li>
-                    <li class="scroll-animated-from-right">
-                        If you need any other social media of mine like QQ or WeChat or Rednote or anything else, please email me in Chinese/Japanese/English/.etc    :3
+                    <li>
+                        If you need any other social media of mine like QQ or WeChat or Rednote or anything else, please email me in Chinese/Japanese/English/.etc &nbsp; :3
                     </li>
                 </ul>
-            </section>
+            </div>
+        </section>
 
-        </div>
-    </div>
+        <!-- ═══════ FOOTER ═══════ -->
+        <footer class="site-footer">
+            <p>Kexin Cheng &middot; Static academic homepage</p>
+        </footer>
+
+        <button class="back-to-top" id="back-to-top" aria-label="Back to top" title="Back to top">↑</button>
+    </main>
 
     <script>
+        // ── Copy utility ──
+        const copyText = async function (text) {
+            try {
+                await navigator.clipboard.writeText(text);
+                return true;
+            } catch (error) {
+                const fallback = document.createElement('textarea');
+                fallback.value = text;
+                document.body.appendChild(fallback);
+                fallback.select();
+                const ok = document.execCommand('copy');
+                fallback.remove();
+                return ok;
+            }
+        };
+
+
+        // ── Smooth scroll ──
         document.querySelectorAll('.smooth-scroll').forEach(function (link) {
             link.addEventListener('click', function (e) {
                 e.preventDefault();
-
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
-
                 if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
                 }
+            });
+        });
+
+        // ── Active nav on scroll ──
+        const navLinks = Array.from(document.querySelectorAll('.nav-links a'));
+        const sections = navLinks.map(function (link) {
+            return document.querySelector(link.getAttribute('href'));
+        }).filter(Boolean);
+
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (!entry.isIntersecting) return;
+                    navLinks.forEach(function (link) {
+                        link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+                    });
+                });
+            }, { rootMargin: '-40% 0px -55% 0px', threshold: 0.01 });
+
+            sections.forEach(function (section) {
+                observer.observe(section);
+            });
+        }
+
+        // ── Scroll animations ──
+        if ('IntersectionObserver' in window) {
+            const animObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+            document.querySelectorAll('section, .resource-item, .services-list li').forEach(function (el) {
+                el.classList.add('animate-in');
+                animObserver.observe(el);
+            });
+        }
+
+        // ── Reading progress bar ──
+        (function () {
+            const bar = document.getElementById('progress-bar');
+            if (!bar) return;
+            window.addEventListener('scroll', function () {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const progress = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0;
+                bar.style.width = progress + '%';
+            }, { passive: true });
+        })();
+
+        // ── Back to top ──
+        (function () {
+            const btn = document.getElementById('back-to-top');
+            if (!btn) return;
+            window.addEventListener('scroll', function () {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                btn.classList.toggle('visible', scrollTop > 400);
+            }, { passive: true });
+            btn.addEventListener('click', function () {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        })();
+
+        // ── Copy email buttons ──
+        document.querySelectorAll('.copy-email-btn').forEach(function (btn) {
+            btn.addEventListener('click', async function () {
+                const email = this.dataset.email;
+                if (!email) return;
+                await copyText(email);
+                const original = this.textContent;
+                this.textContent = '✓';
+                setTimeout(function () { btn.textContent = original; }, 1200);
             });
         });
     </script>
